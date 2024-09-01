@@ -31,14 +31,65 @@ impl fmt::Display for Country {
 struct CliArgs {
     from: String,
     to: String,
-    amount: u64
+    amount: f64
+}
+
+struct Currency {
+    central_currency: Country,
+    from_currency: Country,
+    to_currency: Country,
+    amount: f64
+}
+
+impl Currency {
+    fn new(from_currency: Country, to_currency: Country, amount: f64) -> Currency {
+        Currency{
+            central_currency: Country::UnitedStates,
+            from_currency: from_currency,
+            to_currency: to_currency,
+            amount,
+        }
+    }
+
+    fn convert_to_central_currency(&self) -> f64 {
+        let currency_rate = match self.from_currency {
+            Country::Thailand => 34.04,
+            Country::Japan => 146.21,
+            Country::UnitedStates => 1.0,
+            Country::England => 0.76,
+            Country::French => 784.96,
+        };
+        
+        // central currency in this case it's dollar
+        self.amount / currency_rate
+    }
+
+    fn cal_exchange_currency(&self) -> f64 {
+        let central_amount = self.convert_to_central_currency();
+        
+        let amount = match self.to_currency {
+            Country::Thailand => 34.04,
+            Country::Japan => 146.21,
+            Country::UnitedStates => 1.0,
+            Country::England => 0.76,
+            Country::French => 784.96,
+        };
+
+        amount * central_amount
+    }
+
+    fn cal_and_print_exchange_currency(&self) {
+        let amount = self.cal_exchange_currency();
+        println!("Exchange from {} to {}, got {}", self.from_currency, self.to_currency, amount)
+    }
 }
 
 fn main() {
     let args = CliArgs::parse();
     let from = match_country(args.from);
     let to = match_country(args.to);
-    println!("from {:?} to {}", from, to)
+    let currency = Currency::new(from, to, args.amount);
+    currency.cal_and_print_exchange_currency();
 }
 
 fn match_country(arg: String) -> Country {
