@@ -35,7 +35,6 @@ struct CliArgs {
 }
 
 struct Currency {
-    central_currency: Country,
     from_currency: Country,
     to_currency: Country,
     amount: f64
@@ -44,7 +43,6 @@ struct Currency {
 impl Currency {
     fn new(from_currency: Country, to_currency: Country, amount: f64) -> Currency {
         Currency{
-            central_currency: Country::UnitedStates,
             from_currency: from_currency,
             to_currency: to_currency,
             amount,
@@ -52,6 +50,7 @@ impl Currency {
     }
 
     fn convert_to_central_currency(&self) -> f64 {
+        // rate per 1 central rate ( dollar )
         let currency_rate = match self.from_currency {
             Country::Thailand => 34.04,
             Country::Japan => 146.21,
