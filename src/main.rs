@@ -2,21 +2,21 @@ use clap::Parser;
 use std::{fmt, process::exit};
 
 enum Country {
-    Thailand,
-    Japan,
-    UnitedStates,
-    England,
-    French
+    Bath, // Thailand
+    Yen, // Japan
+    Dollar, // UnitedStates
+    Pound, // England
+    Euro // French
 }
 
 impl fmt::Debug for Country {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Self::Thailand => write!(f, "Thailand"),
-            Self::Japan => write!(f, "Japan"),
-            Self::UnitedStates => write!(f, "UnitedStates"),
-            Self::England => write!(f, "England"),
-            Self::French => write!(f, "French"),
+            Self::Bath => write!(f, "bath"),
+            Self::Yen => write!(f, "yen"),
+            Self::Dollar => write!(f, "dollar"),
+            Self::Pound => write!(f, "pound"),
+            Self::Euro => write!(f, "euro"),
         }
     }
 }
@@ -52,11 +52,11 @@ impl Currency {
     fn convert_to_central_currency(&self) -> f64 {
         // rate per 1 central rate ( dollar )
         let currency_rate = match self.from_currency {
-            Country::Thailand => 34.04,
-            Country::Japan => 146.21,
-            Country::UnitedStates => 1.0,
-            Country::England => 0.76,
-            Country::French => 784.96,
+            Country::Bath => 34.04,
+            Country::Yen => 146.21,
+            Country::Dollar => 1.0,
+            Country::Pound => 0.76,
+            Country::Euro => 784.96,
         };
         
         // central currency in this case it's dollar
@@ -67,11 +67,11 @@ impl Currency {
         let central_amount = self.convert_to_central_currency();
         
         let amount = match self.to_currency {
-            Country::Thailand => 34.04,
-            Country::Japan => 146.21,
-            Country::UnitedStates => 1.0,
-            Country::England => 0.76,
-            Country::French => 784.96,
+            Country::Bath => 34.04,
+            Country::Yen => 146.21,
+            Country::Dollar => 1.0,
+            Country::Pound => 0.76,
+            Country::Euro => 784.96,
         };
 
         amount * central_amount
@@ -79,7 +79,7 @@ impl Currency {
 
     fn cal_and_print_exchange_currency(&self) {
         let amount = self.cal_exchange_currency();
-        println!("Exchange from {} to {}, got {}", self.from_currency, self.to_currency, amount)
+        println!("Exchange from {} to {}, got {:.2}", self.from_currency, self.to_currency, amount)
     }
 }
 
@@ -93,11 +93,11 @@ fn main() {
 
 fn match_country(arg: String) -> Country {
     let country = match arg.trim().to_lowercase().as_str() {
-        "thailand" => Ok(Country::Thailand),
-        "japan" => Ok(Country::Japan),
-        "unitedstates" => Ok(Country::UnitedStates),
-        "england" => Ok(Country::England),
-        "french" => Ok(Country::French),
+        "bath" => Ok(Country::Bath),
+        "yen" => Ok(Country::Yen),
+        "dollar" => Ok(Country::Dollar),
+        "pound" => Ok(Country::Pound),
+        "euro" => Ok(Country::Euro),
         _ => Err(format!("{} is not available", arg).to_string())
     };
 
