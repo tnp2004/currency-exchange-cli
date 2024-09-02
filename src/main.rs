@@ -29,9 +29,14 @@ impl fmt::Display for Country {
 
 #[derive(Parser)]
 struct CliArgs {
+    #[arg(help = "amount of money")]
+    amount: f64,
+
+    #[arg(help = "the currency that you have")]
     from: String,
-    to: String,
-    amount: f64
+
+    #[arg(help = "the currency that you want to exchange to")]
+    to: String
 }
 
 struct Currency {
