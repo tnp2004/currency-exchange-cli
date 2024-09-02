@@ -79,7 +79,7 @@ impl Currency {
 
     fn cal_and_print_exchange_currency(&self) {
         let amount = self.cal_exchange_currency();
-        println!("Exchange from {} to {}, got {:.2}", self.from_currency, self.to_currency, amount)
+        println!("Exchange from {} to {}, got {:.2} {}", self.from_currency, self.to_currency, amount, self.to_currency)
     }
 }
 
